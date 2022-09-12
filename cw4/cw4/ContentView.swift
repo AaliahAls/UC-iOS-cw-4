@@ -11,10 +11,13 @@ struct ContentView: View {
     @State var items = ["tomato", "cucumber", "potato", "pickles", "mayo"]
     // Hint : add these as a new items -> Cupcake, Kitkat, Coca
     @State var newItem = ""
-    @State var random = ""
+   // @State var random = ""
     @State var selectedItem=""
+   // @State var msg=""
+    
     var body: some View {
         VStack{
+            
             List (items, id : \.self){ item in
                 HStack {
                     Image(item)
@@ -25,9 +28,10 @@ struct ContentView: View {
                 .onTapGesture {
                     selectedItem = item
                 }
-            }
-            Text(selectedItem)
+            } .font(.title2)
+              .foregroundColor(.black)
             
+                
             HStack{
                 
                 Button(action: {
@@ -44,21 +48,30 @@ struct ContentView: View {
             
             
             Button(action: {
+                if items.isEmpty == false {
                 if let index = items.firstIndex(of: selectedItem) {
                     items.remove(at: index)
                 } else {
                     items.removeFirst()
                 }
-                
+                }
+            
             }) {
+                if items.isEmpty == false {
                 Image(systemName:"minus.square.fill")
                     .font(.title)
                     .foregroundColor(.red)
+                } else if items.isEmpty {
+                    Image(systemName:"minus.square.fill")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                    disabled(true)
+                }
                    
             }
                 Button(action: {
-                    random = items.randomElement() ?? "nil"
-                    items.append(random)
+                    //random = items.randomElement() ?? "nil"
+                    items.append((items.randomElement() ?? "nil"))
                 }) {
                     Image(systemName:"questionmark.app.fill")
                         .font(.title)
